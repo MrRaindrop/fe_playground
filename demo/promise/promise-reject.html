@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>promise-reject</title>
+	<style type="text/css">
+
+	button {
+		display: block;
+		margin: 10px;
+	}
+
+	</style>
+
+</head>
+<body>
+
+	<button id="btn-reject-then">promise reject in then</button>
+	<p><code>promise.then(onFufiled, onReject)</code> , can't catch error inside the function onFufiled.</p>
+	<button id="btn-reject-catch">promise reject in catch</button>
+	<p><code>promise.then(onFufiled).catch(onReject)</code>, a better practice to catch error.</p>
+
+	<script type="text/javascript" src="./js/promise-reject.js"></script>
+
+</body>
+</html>
