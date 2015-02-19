@@ -1,0 +1,18 @@
+{
+    "name": "test_grunt",
+    "version": "0.1.0",
+    "description": "test for grunt",
+    "homepage": "http://mrraindrop.com",
+    "author": "Mr.Raindrop",
+    "devDependencies": {
+        "grunt": "*",
+        "grunt-cmd-transport": "*",
+        "grunt-contrib-less": "*",
+        "grunt-contrib-watch": "*",
+        "grunt-contrib-jshint": "*",
+        "grunt-contrib-uglify": "*",
+        "grunt-contrib-concat": "*",
+        "grunt-contrib-nodeunit": "*",
+        "grunt-contrib-cssmin": "*"
+    }
+}
