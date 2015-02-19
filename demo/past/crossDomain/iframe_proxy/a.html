@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>a.com</title>
+</head>
+
+<body>
+	<div id="div1">A.com/a.html</div>
+	<input id="txt_msg" type="text" />
+	<input id="button1" type="button" value="向b.com/b.html发送一条消息" />
+	<div id="div_msg"></div>
+	<!-- <iframe frameborder=0 width=800 height=400 id="mainFrame" src="<a href='http://localhost:80/b.html'>b.html</a>"> -->
+	<iframe frameborder=0 width=800 height=400 id="mainFrame"
+		src="http://localhost:80/crossDomain/b.html">
+	</iframe>
+	<script type="text/javascript">
+		var proxyWin = null;
+		var sendBtn = document.getElementById('button1');
+		sendBtn.onclick = function() {
+			console.log('btn click!');
+			sendMessage(document.getElementById('txt_msg').value);
+		}
+		function showMsg(msg) {
+			document.getElementById('div_msg').innerHTML = msg;
+		}
+		function getMessage(data) {
+			showMsg('message from b.html to proxyWin: ' + data);
+		}
+		function sendMessage(data) {
+			console.log(' -- sending msg --');
+			console.log('data: ' + data);
+			console.log('proxyWin: ', proxyWin, proxyWin.name);
+			if (null != proxyWin) {
+				proxyWin.getMessage(data);
+			}
+		}
+	</script>
+	</div>
+</body>
+</html>

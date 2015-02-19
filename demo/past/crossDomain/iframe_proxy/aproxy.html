@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>aproxy</title>
+</head>
+	<div id="div1">a.com/aproxy.html</div>
+	<div id="div_msg">abc</div>
+	<script type="text/javascript">
+		var topWin = top;
+		window.name = 'aproxy';
+		function showMsg(msg) {
+			console.log('aproxy -- showMsg --');
+			console.log('msg: ', msg);
+			console.log('innerHtml: ', document.getElementById('div_msg').innerHtml);
+			document.getElementById('div_msg').innerHTML = msg;
+			// document.getElementById('div_msg').firstChild.nodeValue = msg;
+		}
+		function getMessage(data) {
+			console.log('aproxy getMsg: ' + data);
+			showMsg('messageForm A.com/a.html' + data + '两秒后跳转到bproxy.html');
+			window.name = data;
+			setTimeout(function() {
+				location.href = 'http://localhost:80/crossDomain/bproxy.html';
+			}, 2000);
+		}
+
+		function sendMessage(data) {
+			topWin.proxyWin = window;
+			topWin.getMessage(data);
+		}
+
+		var search = location.search.substring(1);
+		showMsg('message from b.html ' + search);
+		sendMessage(search);
+	</script>
+<body>
+</body>
+</html>

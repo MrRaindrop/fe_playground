@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>b</title>
+	<script type="text/javascript">
+		var trustedOrigin = 'http://127.0.0.1';
+		function messageHandler(e) {
+			console.log(e);
+			console.log(e.origin);
+			if (e.origin === trustedOrigin) {
+				showMsg(e.data);
+			} else {
+				console.log('untrusted origin: ', e.origin);
+			}
+		}
+
+		function sendString(s) {
+			window.top.postMessage(s, trustedOrigin);
+		}
+
+		function loadDemo() {
+			addEvent(document.getElementById('actionButton'), 'click', function() {
+				var messageText = document.getElementById('messageText').value;
+				sendString(messageText);
+			});
+			// sendString(messageText);
+		}
+
+		function showMsg(message) {
+			document.getElementById('status').innerHTML = message;
+		}
+
+		function addEvent(obj, trigger, fun) {
+			if (obj.addEventListener) obj.addEventListener(trigger, fun, false);
+			else if (obj.attachEvent) obj.attachEvent('on' + trigger, fun);
+			else obj['on' + trigger] = fun;
+		}
+
+		addEvent(window, 'load', loadDemo);
+		addEvent(window, 'message', messageHandler);
+	</script>
+</head>
+<body>
+	<h1>B.com/b.html</h1>
+	<p><b>源</b>: <a href="http://localhost:80">http://localhost:80</a>
+	</p>
+	<p>接收到来自a.com/a.html的消息: <strong id="status"></strong></p>
+	<div>
+		<input type="text" id="messageText" value="msg from b.com/b.html" />
+		<button id="actionButton">向a.com/a.html发送消息</button>
+	</div>
+</body>
+</html>

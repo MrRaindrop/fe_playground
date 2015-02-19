@@ -1,0 +1,37 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+@import "compass/css3";
+@import "compass/layout";
+@import "compass/utilities/";
+
+　　
+// $my-color: #ff0000;
+
+body {
+	color: darken(#fff, 10);
+}
+
+// .nav {
+// 	background-color: $my-color;
+// }
+
+.rounded {
+	@include border-corner-radius(top, left, 5px);
+}
+
+#stretch-full {
+	@include stretch; 
+}
+
+#footer {
+	@include sticky-footer(54px);
+}
+
+
+.clearfix {
+	@include clearfix;
+}

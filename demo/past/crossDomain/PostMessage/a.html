@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>A.com/a.html</title>
+	<script type="text/javascript">
+		var trustedOrigin = "http://localhost";
+		function messageHandler(e) {
+			if (e.origin == trustedOrigin) {
+				console.log(e);
+				console.log(e.origin);
+				showMsg(e.data);
+			} else {
+				console.log('untrusted origin: ', e.origin);
+			}
+		}
+
+		function sendString(s) {
+			document.getElementById('widget').contentWindow.postMessage(s, trustedOrigin);
+		}
+
+		function showMsg(message) {
+			document.getElementById('status').innerHTML = message;
+		}
+
+		function sendStatus() {
+			var statusText = document.getElementById('statusText').value;
+			sendString(statusText);
+		}
+
+		function loadDemo() {
+			addEvent(document.getElementById('sendButton'), 'click', sendStatus);
+			sendStatus();
+		}
+
+		function addEvent(obj, trigger, fun) {
+			if (obj.addEventListener) obj.addEventListener(trigger, fun, false);
+			else if (obj.attachEvent) obj.attachEvent('on' + trigger, fun);
+			else obj['on' + trigger] = fun;
+		}
+
+		addEvent(window, 'load', loadDemo);
+		addEvent(window, 'message', messageHandler);
+	</script>
+</head>
+<body>
+	<h1>A.com/a.html</h1>
+	<p><b>源</b>: <a href="http://localhost:80">http://localhost:80</a>
+	</p>
+	<input type="text" id="statusText" value="msg from a.com/a.html" />
+	<button id="sendButton">向b.com/b.html发送消息</button>
+	<p>接收到来自a.com/a.html的消息: <strong id="status"></strong></p>
+	<iframe id="widget" width=800 height=400 src="http://localhost:80/PostMessage/b.html"></iframe>
+</body>
+</html>

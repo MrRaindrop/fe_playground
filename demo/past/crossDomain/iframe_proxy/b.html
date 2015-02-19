@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>b.com/b.html</title>
+</head>
+	<div id="div1">B.com/b.html</div>
+	<input id="txt_msg" type="text" />
+	<input id="button1" type="button" value="向A.com/a.html发送一条消息"
+		onclick="sendMessage(document.getElementById('txt_msg').value)" />
+	<div id="div_msg">
+	</div>
+	<iframe id="proxy" name="proxy" style="width:600px;height:300px"></iframe>
+	<script type="text/javascript">
+		function showMsg(msg) {
+			// document.getElementById('div_msg').firstChild.nodeValue = msg;
+			document.getElementById('div_msg').innerHTML = msg;
+		}
+		function sendMessage(data) {
+			console.log('b.html -- send message --');
+			var proxy = document.getElementById("proxy");
+			proxy.src = 'http://localhost:80/crossDomain/aproxy.html?data=' + data;
+		}
+
+		function connect() {
+			sendMessage('connect');
+		}
+
+		function getMessage(data) {
+			showMsg('message from a.html to proxyWin: ' + data);
+			connect();
+		}
+
+		connect();
+	</script>
+<body>
+</body>
+</html>

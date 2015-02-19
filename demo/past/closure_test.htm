@@ -1,0 +1,158 @@
+<html>
+<head>
+	<script src="JS/10_closure.js"></script>
+</head>
+
+
+<body>
+
+
+<p id="help">Helpful notes will appear here</p>
+<p>E-mail: <input type="text" id="email" name="email"></p>
+<p>Name: <input type="text" id="name" name="name"></p>
+<p>Age: <input type="text" id="age" name="age"></p>
+
+
+
+</body>
+
+<script type='text/javascript'>
+
+// function showHelp(help){
+// 	document.getElementById('help').innerHTML = help;
+// }
+
+// // function makeHelpCallback(help){
+// // 	return function(){
+// // 		showHelp(help);
+// // 	};
+// // }
+
+function setupHelp(){
+
+	var helpText = [
+    	{'id': 'email', 'help': 'Your e-mail address'},
+   		{'id': 'name', 'help': 'Your full name'},
+    	{'id': 'age', 'help': 'Your age (you must be over 16)'}
+    ];
+
+    for(var i = 0, l = helpText.length; i < l; i++){
+    	var item = helpText[i];
+		document.getElementById(item.id).onfocus = function(e){
+			return function(){
+				showHelp(e);
+			}
+		}(item.help);
+    	// document.getElementById(item.id).onfocus = makeHelpCallback(item.help);
+		// document.getElementById(item.id).onfocus = function(){
+		// 	makeHelpCallback(item.help);
+		// }
+
+    }
+}
+
+// setupHelp();
+
+// var singletonMonster = (function(){
+// 	var _name = 'Godzilla';
+// 	function getName(){
+// 		return _name;
+// 	}
+// 	function setName(name){
+// 		_name = name;
+// 	}
+
+// 	return {
+// 		getName: getName,
+// 		setName: setName,
+// 	}
+// })();
+// console.log('singletonMonster:');
+// console.log(singletonMonster);
+// singletonMonster.setName('Godzilla');
+// console.log('singletonMonster.getName()');
+// console.log(singletonMonster.getName());
+// console.log(singletonMonster.name);
+
+
+// function Foo(){
+// 	var _bar = 'bar';
+// 	var _noUse = 2;
+	
+// 	function getFoo(){
+// 		return _bar;
+// 	}
+
+// 	function setFoo(sm){
+// 		_bar = sm;
+// 	}
+
+// 	_noUse = null;	// release
+
+// 	return {
+// 		getFoo: getFoo,
+// 		setFoo: setFoo,
+// 	}
+// }
+
+// Monster.prototype.attack = function(){
+// 	'attack!';
+// }
+
+// var mst = Monster('Godzilla');
+// console.log(mst);
+// mst.attack();
+
+
+
+
+// function makeHunter(monster){
+// 	return function(){
+// 		console.log('Hah, you\'re a ' + monster + 'hunter!');
+// 	}
+// }
+
+// var gozillaHunter = makeHunter('gozilla');
+// var zombieHunter = makeHunter('zombie');
+
+// console.log(gozillaHunter());
+// console.log(zombieHunter());
+
+
+var test = {
+	aaa: 'aaa',
+	case: 'case',
+	error: 'error',
+	delete: 'delete',
+	hasOwnProperty: function(){
+		return false;
+	}
+}
+
+console.log(test.hasOwnProperty('delete'));
+console.log({}.hasOwnProperty.call(test, 'delete'));
+
+// function Monster(){
+// 	var _name;
+// 	function getName(){
+// 		return _name;
+// 	}
+
+// 	function setName(name){
+// 		_name = name;
+// 	}
+
+// 	return {
+// 		getName: getName,
+// 		setName: setName,
+// 	}
+// }
+
+// var godzilla = new Monster();
+// var godzilla = Monster();
+// godzilla.setName('Godzilla');
+// console.log(godzilla);
+
+</script>
+
+</html>

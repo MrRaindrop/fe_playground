@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>b.com/bproxy</title>
+</head>
+<body>
+	<div id="div1">
+		B.com/bproxy.html
+	</div>
+	<div id="div_msg">
+	</div>
+	<script type="text/javascript">
+		var parentWin = parent;
+		var data = null;
+
+		function getMessage() {
+			if (window.name) {
+				data = window.name;
+				parentWin.getMessage(data);
+			}
+			document.getElementById('div_msg').innerHTML = 'message from a.com/aproxy.html: ' + data;
+		}
+		getMessage();
+	</script>
+</body>
+</html>

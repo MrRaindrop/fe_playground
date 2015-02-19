@@ -1,0 +1,48 @@
+<html>
+<head>
+	<script>
+
+		function loadScript(url, callback) {
+
+			var script = document.createElement('script');
+			script.type = 'text/javascript';
+
+			if (script.readyState) {	// for ie.
+
+				script.onreadystatechange = function() {
+					if (script.readyState === 'loaded' || script.readyState === 'complete') {
+						script.onreadystatechange = null;
+						callback();
+						alert('for ie!');
+					}
+				};
+
+			} else {
+
+				script.onload = function() {
+					callback();
+				};
+
+			}
+
+			script.src = url;
+			document.getElementsByTagName('head')[0].appendChild(script);
+
+		}
+
+		loadScript('http://underscorejs.org/underscore-min.js', function() {
+			alert('underscorejs loaded!');
+		});
+		
+	</script>
+	<!-- // <script onload="alert('underscorejs loaded!')" src="http://underscorejs.org/underscore-min.js"></script> -->
+	<script onload="alert('jquery loaded!')" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+
+</head>
+<body>
+	
+	<img src='http://a.hiphotos.baidu.com/album/w%3D210%3Bq%3D75/sign=8e40b748adaf2eddd4f14ee8bd2b70d4/4afbfbedab64034f80b90b48aec379310a551d0c.jpg' />
+	<p>==========================================================</p>
+</body>
+	<!-- // <script src="http://underscorejs.org/underscore-min.js"></script> -->
+</html>

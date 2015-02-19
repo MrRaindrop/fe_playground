@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="JS/design_patterns/03_observer_publisher_subscriber.js"></script>
+	<script src="JS/design_patterns/07_visitor.js"></script>
+	<script src="JS/design_patterns/09_iterator.js"></script>
+	<script src="JS/utilities/for_mixin_and_interface.js"></script>
+	<script src="JS/utilities/for_array_like.js"></script>
+	<script src="JS/utilities/list_Own_and_not_Own_Properties.js"></script>
+	<script src="JS/02_prototype_extend.js"></script>
+	<script src="JS/03_override_base_method.js"></script>
+	<script src="JS/04_mixin_borrow_methods.js"></script>
+	<script src="JS/05_mixin_class.js"></script>
+	<script src="JS/07_define_class.js"></script>
+	<script src="JS/09_arguments_object.js"></script>
+
+
+</head>
+<body style=margin:0>
+
+<script type='text/javascript'>
+
+function a(i, j){
+	// alert(i + j);
+}
+
+function b(){
+	a.call(this, 1, 2);
+}
+
+b();
+
+console.log(b.prototype);
+console.log(a.prototype);
+b.prototype.funcTest1 = function(){
+	console.log('in funcTest1, this is:');
+	console.log(this);
+}
+var c = new b();
+console.log(typeof b);
+console.log(b.constructor);
+console.log(b);
+console.log(b.prototype);
+b.prototype.funcTest2 = function(){
+	console.log('in funcTest2, this is:');
+	console.log(this);
+}
+console.log(c);
+c.funcTest2();
+console.log(typeof c);
+console.log(c.__proto__);
+console.log(c.prototype);
+console.log(c.__proto__.prototype);
+console.log(b.prototype === c.__proto__);	// 伪类的原型和对象的原型等同
+											// 所以继承类时会用child.prototype = new Base();
+console.log(b.prototype === c);
+
+//delete b.prototype.funcTest1;		// 删除一个原型方法用delete关键字
+console.log(b.prototype);
+
+function d(a, b){ var c = a + b;}
+console.log(d);
+d.prototype = new b();	// 原型链继承
+d.prototype.constructor = d;		// 设置构造函数
+console.log(d);
+console.log(d.prototype);	
+console.log(b.prototype);
+
+var e = new d();
+console.log(e);
+
+console.log(e.hasOwnProperty('funcTest1'));
+console.log(d.hasOwnProperty('funcTest1'));
+
+e.funcTest1();
+
+
+var r = new PositionedRectangle(2, 2, 2, 2);
+console.log(r);
+console.log(r.__proto__);
+console.log('PositionedRectangle.prototype:');
+console.log(PositionedRectangle.prototype);
+console.log('Rectangle.prototype:');
+console.log(Rectangle.prototype);
+
+console.log('------------01_design_pattern------------------------------------------')
+
+console.log('------------03_override_base_method------------------------------------------');
+
+var r = new Rectangle(3, 3);
+console.log('new Rectangel:');
+console.log(r.toString());
+var pr = new PositionedRectangle(2, 2, 3, 3);
+console.log('new PositionedRectangel:');
+console.log(pr.toString());
+var cpr = new ColoredPositionedRectangle(2, 2, 3, 3, 'Red');
+console.log('new ColoredPositionedRectangel:');
+console.log(cpr.toString());
+
+console.log('test hasOwnProperty:');
+console.log('does PositionedRectangel hasOwnProperty width?');
+console.log(pr.hasOwnProperty('width'));
+console.log('does PositionedRectangel hasOwnProperty area?');
+console.log(pr.hasOwnProperty('area'));
+console.log('does PositionedRectangel hasOwnProperty contains?');
+console.log(pr.hasOwnProperty('contains'));
+
+console.log('PositionedRectangle a instanceof Rectangle ??:');
+console.log(pr instanceof Rectangle);
+
+console.log('ColoredPositionedRectangel a instanceof PositionedRectangle ??:');
+console.log(cpr instanceof PositionedRectangle);
+
+console.log('ColoredPositionedRectangel a instanceof Rectangle ??:');
+console.log(cpr instanceof Rectangle);
+
+console.log('------------05_mixin_class------------------------------------------');
+
+var mr = new MixRectangle(2, 2, 3, 3);
+var mr2 = new MixRectangle(2, 2, 3, 3);
+console.log('mixin_class: MixRectangle.prototype');
+console.log(MixRectangle.prototype);
+console.log('two mixRectangle mr1 & mr2:');
+console.log(mr);
+console.log(mr2);
+console.log('mixRectangle.toString():');
+console.log(mr.toString());
+console.log('mr.equals(mr2) ??:');
+console.log(mr.equals(mr2));
+
+console.log('MixRectangle a instanceof GenericEquals ??:');
+console.log(mr instanceof GenericEquals);
+console.log('MixRectangle a instanceof GenericToString ??:');
+console.log(mr instanceof GenericToString);
+
+var cmr = new ColoredMixRectangle(2, 2, 3, 3, 'yellow');
+console.log('mixin_class: ColoredMixRectangle.prototype');
+console.log(ColoredMixRectangle.prototype);
+console.log('coloredMixRectangle cmr:');
+console.log(cmr);
+console.log('ColoredMixRectangle a instanceof Colored ??"');
+console.log(cmr instanceof Colored);
+
+console.log('------------02_another_way_to_extends------------------------------------------');
+
+var dog = new Dog();
+console.log('dog:');
+console.log(dog);
+console.log('dog init:');
+dog.init();
+
+console.log('------------design_pattern_09_iterator------------------------------------------');
+
+console.log('forEach_ary:');
+forEach_ary( [1, 2, 3], function(i, n){ 
+	console.log(i + ':' + n);
+});
+console.log('forEach_obj:');
+forEach_obj({'a': 1, 'b': 2, 'c': 3}, function(i, n){
+	console.log(i + ':' + n);
+});
+
+console.log('------------utilities_mixin_and_interface------------------------------------------');
+var mr = new MixRectangle(2, 2, 3, 3);	// Rectangle mix with GenericEquals and GenericToString
+console.log('borrows(mr, GenericEquals):');
+// var isBorrowed = borrows(mr, GenericEquals);
+console.log(borrows(mr, GenericEquals));
+console.log('borrows(mr, GenericToString):');
+console.log(borrows(mr, GenericToString));
+console.log('borrows(mr, Array):');
+console.log(borrows(mr, Array));
+console.log('borrows(mr, Number):');
+console.log(borrows(mr, Number));
+console.log('provides(mr, Comparable):');
+console.log(provides(mr, Comparable));
+
+function CCompare(){};
+CCompare.prototype.compareTo = function(that){
+	console.log(that);
+};
+
+function CCompare2(){};
+CCompare2.prototype.compareTo = function(){};
+
+console.log('prototype of CCompare:');
+console.log(CCompare.prototype);
+console.log('provides(CCompare, Comparable):');
+console.log(provides(CCompare, Comparable));
+
+console.log('prototype of CCompare2:');
+console.log(CCompare2.prototype);
+console.log('provides(CCompare2, Comparable):');
+console.log(provides(CCompare2, Comparable));
+
+console.log('------------utilities_array_like------------------------------------------');
+
+var arrlkobj = { 0: 1, 1: 2, 2: 3 };
+console.log('arrlkobj:');
+console.log(arrlkobj);
+console.log('isArrayLike(arrlkobj):')
+console.log(isArrayLike(arrlkobj));
+
+console.log('--------');
+
+var arrlkobj2 = { length: 3, 0: 1, 1: 2, 2: 3 };
+console.log('arrlkobj2:');
+console.log(arrlkobj2);
+console.log('isArrayLike(arrlkobj2):')
+console.log(isArrayLike(arrlkobj2));
+
+console.log('--------');
+
+var arrlkobj3 = { length: 3, 0: 1, 1: 2 };
+console.log('arrlkobj3:');
+console.log(arrlkobj3);
+console.log('isArrayLike(arrlkobj3):')
+console.log(isArrayLike(arrlkobj3));
+
+console.log('--------');
+
+var arrlkobj4 = { length: 3, 0: 1, 2: 3 };
+console.log('arrlkobj4:');
+console.log(arrlkobj4);
+console.log('isArrayLike(arrlkobj4):')
+console.log(isArrayLike(arrlkobj4));
+
+console.log('--------');
+
+var arrlkobj5 = { length: 3, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8, 2: 3 };
+console.log('arrlkobj5:');
+console.log(arrlkobj5);
+console.log('isArrayLike(arrlkobj5):')
+console.log(isArrayLike(arrlkobj5));
+
+console.log('------------utilities_list_own_and_not_own_properties------------------------------------------');
+
+var abcd = function(a, b, c, d){
+};
+
+abcd.prototype.xxx = function(){
+	console.log('xxx');
+};
+
+abcd.prototype.yyy = function(){
+	console.log('yyy');
+};
+
+listOwnProperties(abcd);
+listNotOwnProperties(abcd);
+
+console.log('------------define_class------------------------------------------');
+
+function ExperimentalClass(){};
+
+var config = {
+	name: 'AnotherExperimentalClass',
+	extend: Rectangle,
+	construct: ExperimentalClass,
+	methods: { dump: function(){
+		console.log('-- This is another experiment.');
+	}, },
+	statics: { staticDump: function(){
+		console.log('-- This is a static methods in experimental class.');
+	}, },
+	mixins: [GenericEquals, GenericToString],
+	provides: [GenericEquals, GenericToString],
+};
+
+console.log('define newClass:');
+var newClass = define(config);
+console.log(newClass);
+console.log('--------');
+console.log('prototype of new class:');
+console.log(newClass.prototype);
+
+var newClassObject = new newClass;
+console.log('object of newClass:');
+console.log(newClassObject);
+console.log('newClassObject.dump():');
+newClassObject.dump();
+console.log('static method - newClass.staticDump(): (static mehtod invoked by class name)');
+newClass.staticDump();
+
+
+console.log('------------has_own_property------------------------------------------');
+
+var hasOwnPropertyTest = {
+	aaa: 'aaa',
+	case: 'case',
+	error: 'error',
+	delete: 'delete',
+	hasOwnProperty: function(){
+		return false;
+	}
+};
+
+console.log('obj hasOwnPropertyTest:');
+console.log(hasOwnPropertyTest);
+console.log('directly call hasOwnProperty(\'delete\'):');
+console.log(hasOwnPropertyTest.hasOwnProperty('delete'));
+console.log('{}.hasOwnProperty.call(hasOwnPropertyTest, \'delete\'):');
+console.log({}.hasOwnProperty.call(hasOwnPropertyTest, 'delete'));
+
+console.log('------------has_own_property_&&_arguments_test------------------------------------------');
+
+argumentsTest(' ', 1, 2, 3, 'a', 'bbb', 'xyz', { 1: 'xx', 'yyy': 'yyy' });
+
+console.log('-------------');
+
+(function(a, b, c){
+	console.log('a, b, c:');
+	console.log(a, b, c);
+	console.log('arguments:');
+	console.log(arguments);
+	arguments[0] = 1;
+	arguments[1] = 'xxx';
+	arguments[2] = 3;
+	console.log('a, b, c:');
+	console.log(a, b, c);
+	console.log('arguments:');
+	console.log(arguments);
+})('111', 102, 103);
+
+console.log('-------------');
+console.log('use strict:');
+
+(function(a, b, c){
+	"use strict";
+	console.log('a, b, c:');
+	console.log(a, b, c);
+	console.log('arguments:');
+	console.log(arguments);
+	arguments[0] = 1;
+	arguments[1] = 'xxx';
+	arguments[2] = 3;
+	console.log('a, b, c:');
+	console.log(a, b, c);
+	console.log('arguments:');
+	console.log(arguments);
+})('111', 102, 103);
+
+console.log('-------------');
+console.log('use strict:');
+
+(function(a, b, c){
+	"use strict";
+	console.log('a, b, c:');
+	console.log(a, b, c);
+	console.log('arguments:');
+	console.log(arguments);
+	a = 1;
+	b = 'xxx';
+	c = 3;
+	console.log('a, b, c:');
+	console.log(a, b, c);
+	console.log('arguments:');
+	console.log(arguments);
+})('111', 102, 103);
+
+
+console.log('------------call_and_apply------------------------------------------');
+
+
+function Foo(){}
+
+Foo.prototype.method = function(a, b, c){
+	console.log('bound version of method');
+	console.log(this, a, b, c);
+}
+
+Foo.method = function(){
+	console.log('unbound version of method')
+	console.log(arguments);
+
+	/*
+	* the 'apply' convert arguments object into a array
+	* and separate it into arg[0], arg[1], ...
+	* then 'call' can accept these args.
+	*/
+
+	Function.prototype.call.apply(Foo.prototype.method, arguments);
+	// var args = Array.prototype.slice.call(arguments);
+	// Foo.prototype.method.apply(args[0], args.slice(1));
+}
+
+var xx = new Foo();
+Foo.method(xx, 'abc', 1, 'zzz...');
+
+
+console.log('------------repeat_string------------------------------------------');
+
+console.log('repeat \'Javascript\' for 10 times:');
+var r_count = 10;
+var r_str = 'Javascript';
+console.log(new Array(r_count + 1).join(r_str));
+
+
+console.log('------------for_test------------------------------------------');
+
+function bindEvent() {
+	try {
+		var obj = document.createElement('div');
+		var var0 = 'ooxx';
+		obj.onclick = function() {
+			alert(var0);
+		}
+
+		return obj;
+	} finally {
+		obj = null;
+	}
+}
+
+/*function bindEvent() {
+
+	var obj = document.createElement('div');
+	var var0 = 'ooxx';
+	obj.onclick = function() {
+		alert(var0);
+	}
+
+	return obj;
+}*/
+
+console.log(bindEvent());
+
+var s = 'lalala';
+
+alert(s.length);
+
+
+var reg = /<html>[\s\S]*?<head>[\s\S]*?<title>[\s\S]*?<\/title>[\s\S]*?
+		<\/head>[\s\S]*?<body>[\s\S]*?<\/body>[\s\S]*?<\/html>/;
+
+var reg2 =
+/<html>(?:(?!<head>)[\s\S])*<head>(?:(?!<title>)[\s\S])*<title>(?:(?!<\/title>)[\s\S])*<\/title>(?:(?!<\/head>)[\s\S])*<\/head>(?:(?!<body>)[\s\S])*<body>(?:(?!<\/body>)[\s\S])*<\/body>(?:(?!<\/html>)[\s\S])*<\/html>/
+
+var reg3 = /<html>(?=([\s\S]*?<head>))\1(?=([\s\S]*?<title>))\2(?=([\s\S]*?<\/title>))\3(?=([\s\S]*?<\/head>))\4(?=([\s\S]*?<body>))\5(?=([\s\S]*?<\/body>))\6[\s\S]*?<html>/
+
+var cat = {};
+
+'use strict'
+
+// 不能增加属性
+Object.preventExtension(cat);
+console.log(Object.isExtensible(cat));
+cat.age = 1;	// error.
+
+// 不能增删属性
+Object.seal(cat);
+console.log(Object.isExtensible(cat));
+console.log(Object.isSealed(cat));
+delete cat.name;	// error.
+cat.age = 1;	// error.
+
+// 不能增删改
+Object.freeze(cat);
+console.log(Object.isExtensible(cat));
+console.log(Object.isSealed(cat));
+console.log(Object.isFrozen(cat));
+cat.name = "Kitty";	// error.
+delete cat.name;	// error.
+cat.age = 1;	// error.
+
+
+String.prototype.trim = function() {
+	return this.replace(/^\s\s*/, '').replace(/\s+$/, '');
+}
+
+
+// throw new Error('bingo!');
+// function is(type, obj) {
+//     var clas = Object.prototype.toString.call(obj).slice(8, -1);
+//     return obj !== undefined && obj !== null && clas === type;
+// }
+
+// console.log(is('String', 'test')); // true
+// console.log(is('String', new String('test'))); // true
+
+
+
+// if(typeof foobar !== 'undefined')
+// 	console.log('foobar already defined.');
+// else
+// 	console.log('foobar undefined.');
+
+// console.log(10 == 010);
+// console.log(010);
+
+// var test_x = {};
+// if(test_x)
+// 	console.log('true!');
+
+// console.log(myvar);
+// var myvar = 'my value';
+
+// (function() {  
+//     console.log(myvar); // undefined
+//     var myvar = 'local value';
+// })();
+
+
+// var r_count = 10;
+// var r_str = 'Javascript';
+// console.log(new Array(r_count + 1).join(r_str));
+
+
+// function Base(){
+// 	this.a = 'a';	// ok.
+// 	var b = 'b';	// undefined.
+// 	c = 'c';		// define window.c
+
+// 	return {
+// 		a: this.a,
+// 		b: b,
+// 		c: c,
+// 	}
+// };
+
+// Base.prototype.foo = function(){
+// 	console.log('Foo test ok!');
+// };
+
+// var ba1 = new Base;
+// var ba2 = Base();
+// console.log(ba1);
+// console.log(ba1._proto__);
+// // ba1.foo();
+// console.log(ba2);
+// console.log(ba2.__proto__);
+// // ba2.foo();
+
+// console.log(ba1.a);
+// console.log(ba1.b);
+// console.log(ba1.c);
+
+// var items = [/* 数组 */];
+
+	// for(var i = 0; i < 10; i++) {
+	// 	console.log('i = ' + i);
+	//     subLoop();
+	// }
+
+	// function subLoop() {
+	//     // subLoop 函数作用域
+	//     for(i = 0; i < 10; i++) { // 没有使用 var 声明变量
+	//         // 干活
+	//         console.log('in subLoop!');
+	//         console.log(window.i);
+	//     }
+	// }
+
+
+
+
+
+// function foo(){
+// 	bar.apply(null, arguments);
+// }
+
+// function bar(a, b, c){
+// 	console.log(this);
+// 	console.log(a);
+// 	console.log(b);
+// 	console.log(c);
+// }
+
+// foo(1, 2, 3);
+
+
+// function test(){
+// 	console.log(this);
+
+// 	function innerTest(){
+// 		console.log(this);
+// 	};
+
+// 	innerTest();
+// };
+
+// test();
+
+// test.prototype.methodTest = function(){
+// 	console.log(this);
+// }
+// var xx = new test;
+
+// xx.methodTest();
+// var methodTestTotal = xx.methodTest;
+
+// methodTestTotal();
+
+// function Counter(start) {
+//     var count = start;
+//     return {
+//         increment: function() {
+//             count++;
+//         },
+
+//         get: function() {
+//             return count;
+//         }
+//     }
+// }
+
+// var foo = Counter(4);
+// foo.increment();
+// console.log(foo.get());
+
+// foo.hack = function(){
+// 	count = 1337;
+// }
+
+// console.log(foo.get());
+
+
+
+
+</script>
+
+<canvas id='c' />
+
+<script type='text/javascript'>
+// var ce = document.getElementById('c');
+// var c = document.getElementById('c').getContext('2d');
+// console.log(c);
+// var w = window.screen.width, h = window.screen.height;
+// ce.width = w, ce.height = h;
+// var p = Array(128).join(10).split('');
+// setInterval(function() {
+// 	c.fillStyle = "rgba(0,0,0,0.05)";
+// 	c.fillRect(0, 0, w, h);
+// 	c.fillStyle = "rgba(0,255,0,1)";
+// 	p = p.map(function(v, i) {
+// 		c.fillText(String.fromCharCode(Math.floor(50 + Math.random() * 33)), i * 10, v * 1.7);
+// 		v += 10;
+// 		if (v > 768 + Math.random() * 10000) v = 0;
+// 		return v
+// 	})
+// 	console.log(p);
+// }, 33)
+
+</script>
+	
+</body>
+</html>

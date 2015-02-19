@@ -1,0 +1,35 @@
+<html>
+<head>
+</head>
+<body>
+	<div id="testdiv">
+		<p id="firstChi;">p1</p>
+		<p>p2</p>
+		<p>p3</p>
+		<p>p4</p>
+		<p>p5</p>
+	</div>
+	
+</body>
+<script type="text/javascript">
+var test = document.getElementById('testdiv');
+test.onclick = function(e) {
+	var e = e || window.event,
+		target = e.target || e.srcElement;
+
+	if (target.nodeName !== 'P')
+		return;
+
+	alert('click on p!');
+
+	if (typeof e.preventDefault === 'function') {
+		e.preventDefault();
+		e.stopPropagation();
+	} else {
+		e.returnValue = false;
+		e.cancelBubble = true;
+	}
+}
+
+</script>
+</html>
