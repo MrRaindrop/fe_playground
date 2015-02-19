@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+
+	<base target="_blank" />
+
+</head>
+
+<body>
+
+	<br /><input type="text" accesskey="a" tabindex=2 />
+	<br /><textarea accesskey="b" tabindex=1 ></textarea>
+
+	<br />big ---> 	<big>big</big>
+	<br />small ---> <small>small</small>
+	<br />em ---> 	<em>em</em>
+	<br />strong ---> <strong>strong</strong>
+	
+	<br />tt ---> <tt>tt: usually used to display in-line cmd code.</tt>
+	<br />pre ---> <pre>
+		var i, len;
+		for (i = 0, len = xx.length; i++) {
+			console.log('ok');
+		}
+	</pre>
+	<br />code ---> <code>
+		var i, len;
+		for (i = 0, len = xx.length; i++) {
+			console.log('ok');
+		}
+	</code>
+
+	<br />sub ---> <sub>sub</sub>
+	<br />sup ---> <sup>sup</sup>
+	<br />ins ---> <ins>ins</ins>
+	<br />del ---> <del>del</del>
+	<br />ins&del ---> a dozen is <del>20</del><ins>12</ins> pieces
+
+	<br />abbr ---> <abbr title="etcetera">etc.</abbr>
+	<br />address ---> <address>
+		<a href="#">address</a>
+		<br />xxxx
+		<br />yy.yy.yyyy
+	</address>
+
+	<br />acronym ---> <acronym title="World Wide Web">WWW</acronym>
+	<br />bdo ---> <bdo dir="rtl">Here is some Hebrew text</bdo>
+
+	<br />blockquote ---> <blockquote cite="http://www.baidu.com">
+	Here is a long quotation here is a long quotation here is a long quotation 
+	here is a long quotation here is a long quotation here is a long quotation 
+	here is a long quotation here is a long quotation here is a long quotation.
+	</blockquote>	
+
+	<br />q ---> <p>Here comes a short quotation:<q>This is a short quotation</q></p>
+	<br />cite ---> cite a <a href="#"><cite>book</cite></a>
+	<br />dfn ---> <dfn>dfn</dfn>
+	<br />var ---> <var>variable</var>
+
+	<!-- define img map (clickable) -->
+
+	<img src="./bg.jpg" usemap="#bg" />
+	<map name="bg" id="bg">
+		<area shape="rect" coords="0,0,300,300" href="#" />
+		<area shape="circ" coords="300,300,100" href="#" />
+		<area shape="poly"
+			coords="400,400,460,500,610,440,820,360,480,200" href="#" />
+	</map>
+
+	<a href="http://www.baidu.com/">
+		<img src="bg2.jpg" ismap />
+	</a>
+
+	<ul type="disc">
+		<li>aa</li>
+		<li>bb</li>
+		<li>cc</li>
+	</ul>
+	<ul type="circle">
+		<li>aa</li>
+		<li>bb</li>
+		<li>cc</li>
+	</ul>
+	<ul type="square">
+		<li>aa</li>
+		<li>bb</li>
+		<li>cc</li>
+	</ul>
+	<ol>
+		<li>aa</li>
+		<li>bb</li>
+		<li>cc</li>
+	</ol>
+	<ol type="A">
+		<li>aa</li>
+		<li>bb</li>
+		<li>cc</li>
+	</ol>
+	<ol type="a">
+		<li>aa</li>
+		<li>bb</li>
+		<li>cc</li>
+	</ol>
+	<ol type="I">
+		<li>aa</li>
+		<li>bb</li>
+		<li>cc</li>
+	</ol>
+	<ol type="i">
+		<li>aa</li>
+		<li>bb</li>
+		<li>cc</li>
+	</ol>
+	<ul>
+		<li>aa</li>
+		<li>bb</li>
+		<li>cc
+			<ul>
+				<li>aa</li>
+				<li>bb</li>
+				<li>cc
+					<ol>
+						<li>aa</li>
+						<li>bb</li>
+						<li>cc
+							<ol>
+								<li>aa</li>
+								<li>bb</li>
+								<li>cc</li>
+							</ol>
+						</li>
+					</ol>
+				</li>
+			</ul>
+		</li>
+	</ul>
+
+	<form>
+	  <fieldset>
+	    <legend>health information</legend>
+	    height: <input type="text" />
+	    weight: <input type="text" />
+	  </fieldset>
+	</form>
+
+	<select>
+	  <optgroup label="Swedish Cars">
+	    <option value ="volvo">Volvo</option>
+	    <option value ="saab">Saab</option>
+	  </optgroup>
+	  <optgroup label="German Cars" disabled>
+	    <option value ="mercedes">Mercedes</option>
+	    <option value ="audi">Audi</option>
+	  </optgroup>
+	</select>
+
+	<br /><a href="#" target="_self">self</a>
+	<br /><a href="#">blank</a>
+
+</body>
+</html>
