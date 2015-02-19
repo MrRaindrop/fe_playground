@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset = "utf-8" />
+
+	<style>
+
+body {
+	background-color: green;
+}
+
+#div-main {
+	background-color: green;
+}
+
+.hover {
+	background-color: red;
+}
+
+div.out {
+	width: 40% ;
+	height: 120px;
+	margin: 0 15px;
+	background-color: #D6EDFC;
+	float: left;
+}
+
+div.in {
+	width: 60% ;
+	height: 60% ;
+	background-color: #FFCC00;
+	margin: 10px auto;
+}
+
+div#playground-1 {
+	margin: 50px;
+	padding: 30px;
+	clear: both;
+	float: left;
+	width: 60px;
+	height: 60px;
+	background-color: #fff;
+}
+
+	</style>
+
+	<script src="jquery-min.js"></script>
+
+	<script type="text/javascript">
+
+		$('document').ready(function() {
+
+			var noNeed, trigger;
+			
+			console.log($('a').filter(function() {
+
+				return this.hostname && this.hostname === 'www.xxx.com'; 
+
+			}));
+
+			$('a').filter(function() {
+				
+				return this.hostname && this.hostname === 'www.xxx.com'; 
+
+			}).addClass('ooxx').addClass('ooxx');
+
+			$('a').on('click', function(event) {
+
+				console.log('click@');
+				console.log(event.target);
+				/*event.preventDefault();
+				event.stopPropagation();*/
+				return false;
+			
+			});
+
+			noNeed = function(target) {
+
+				console.log('click.noNeed@ - I don\'t need this handler!!!');
+				console.log(target);
+
+			};
+
+			$('a').not('#more').on('click', noNeed);
+			$('a').not('#more').on('click', noNeed);
+			$('a').not('#more').on('click', noNeed);
+
+			$('#div-main').on('click', function(e) {
+
+				console.log('click@div-main');
+				console.log(e.target);
+
+				console.log('unbinding click.noNeed of a elements...');
+				$('a').unbind('click', noNeed);
+				console.log('done!!!');
+			
+			});
+
+			$('a').hover(function() {
+				$(this).addClass('hover');
+			}, function() {
+				$(this).removeClass('hover');
+			});
+
+			triggers = {
+				M: 'main',
+			};
+
+			$(document).keyup(function(event) {
+
+				var key = String.fromCharCode(event.keyCode);
+				if(key in triggers) {
+					$('#div-' + triggers[key]).click();
+				}
+
+			});
+
+			var $a = $('a');
+			$('#switcher-add').on('click', function() {
+				var num = parseFloat($a.css('fontSize'));
+				num *= 1.4;
+				// $a.css('fontSize', num + 'px');
+				$a.animate({
+					fontSize: num + 'px'
+				}, 'slow');
+			});
+
+			$('#switcher-sub').on('click', function() {
+				var num = parseFloat($a.css('fontSize'));
+				num /= 1.4;
+				// $a.css('fontSize', num + 'px');
+				$a.animate({
+					fontSize: num + 'px'
+				}, 'slow');
+			});
+
+			var $p = $('p').eq(0);
+			$p.hide();
+
+			$('#more').on('click', function() {
+				/*$p.slideDown('slow', function() {
+					$(this).slideUp('slow');
+				});*/
+				/*if (!$p.is(':animated')) {
+					$p.slideToggle('slow');
+				}*/
+				$p.stop().slideToggle('slow');
+				return false;
+			});
+
+			$('p').eq(1).css('border', '1px solid #333')
+				.click(function() {
+					var $clickItem = $(this);
+					$clickItem.next().slideDown('normal', function() {
+						$clickItem.slideUp('normal');
+					});
+				});
+
+			$('p').eq(2).css('backgroundColor', '#ccc').hide().click(function() {
+				var $clickItem = $(this);
+				$clickItem.slideUp('normal', function() {
+					$clickItem.prev().slideDown('normal');
+				});
+			});
+
+			console.log($('p'));
+
+			///////////////////////////////////////////////////////////////////
+
+			var i = 0;
+			$("div.overout").mouseout(function() {
+				$("p:first", this).text("mouse out");
+			    $("p:last", this).text(++i);
+			}).mouseover(function() {
+			    $("p:first", this).text("mouse over");
+			});
+			 
+			var n = 0;
+			$("div.enterleave").on("mouseenter ",function() {
+			    $("p:first", this).text("mouse enter");
+			}).on("mouseleave",function() {
+			    $("p:first", this).text("mouse leave");
+			    $("p:last", this).text(++n);
+			});
+
+			///////////////////////////////////////////////////////////////////
+
+			$('#fx-toggle').show().bind('click', function() {
+				$.fx.off = !$.fx.off;
+			})
+
+			// $.fx.interval = 20;
+
+			///////////////////////////////////////////////////////////////////
+
+			var arr = [52, 97, 3, 62, 10, 63, 64, 1, 9, 3, 4];
+
+			arr.sort(function(a, b) {
+				if(a < b) {
+					return -2;
+				} else if (a > b) {
+					return 2;
+				} else {
+					return 0;
+				}
+			});
+			console.log(arr);
+
+			arr.sort();
+			console.log(arr);
+
+			var str = '    hello, how are you?     ';
+			console.log($.trim(str).toUpperCase());
+			console.log(str);
+
+			///////////////////////////////////////////////////////////////////
+
+			/*var rows = $table.find('tbody > tr').each(function() {
+				var key = $(this).children('td').eq(column).text();
+				$(this).data('sortKey', $.trim(key).toUpperCase());
+			}).get();
+
+			rows.sort(function() {
+				var keyA = $(a).data('sortKey');
+				var keyB = $(b).data('sortKey');
+				if(keyA < keyB) return -1;
+				if(keyA > keyB) return 1;
+				return 0;
+			});*/
+
+			///////////////////////////////////////////////////////////////////
+
+			console.log(Date.now());
+			console.log(new Date());
+			var strdate = "2 March 2010";
+			console.log(Date.parse(strdate));
+
+			///////////////////////////////////////////////////////////////////
+
+			var div = document.createElement('div');
+			$.support.textShadow = div.style.textShadow === '';
+			$.support.filter = div.style.filter === '';
+			div = null;
+
+			if ($.support.textShadow) {
+				$.cssHooks.glowColor = {
+					set: function(elem, value) {
+						if (value == 'none') {
+							elem.style.textShadow = '';
+						} else {
+							elem.style.textShadow = '0 0 10px ' + value;
+						}
+					}
+				};
+			} else {
+				$.cssHooks.glowColor = {
+					set: function(elem, value) {
+						if (value == 'none') {
+							elem.style.filter = '';
+						} else {
+							elem.style.filter = 'progid:DXImageTransform.Microsoft' +
+									'.Glow(Strength=2, Color=' + value + ');';
+						}
+					}
+				}
+			}
+
+			$pg1 = $('#playground-1');
+
+			$('<h3></h3>', {
+				id: 'playground-1-new',
+				'class': 'playground-title',
+				text: 'NEW',
+				data: { 'index': 1 },
+				click: function() {
+					$('p').slideToggle();
+					return false;
+				},
+				css: {
+					color: '#fff',
+					glowColor: '#333',
+				},
+			}).appendTo($pg1);
+
+		});
+	
+		/////////////////////////////////////////
+		
+		/*$.ajax({
+			url: 'http://api.jquery.com/jsonp/',
+			dataType: 'jsonp',
+			data: {
+				title: 'xxx'
+			},
+			timeout: 15000,
+			success: response,
+			error: function() {
+				alert('error');
+			}
+		});*/
+
+		// ajax promise - using ajax promise method
+
+		/*var api = {};
+
+		$ajaxForm.bind('submit', function(event) {
+			event.preventDefault();
+
+			$response.empty();
+
+			var search = $('title').val();
+			if (research == '') {
+				return;
+			}
+
+			$response.addClass('loading');
+			if (!api[search]) {
+				api[search] = $.ajax({
+					//...
+				});
+			}
+			api[search].done(response).fail(function() {
+				//...
+			}).always(function() {
+				//...
+			});
+
+		});*/
+
+		/*$.ajax({
+			url: 'http://api.jquery.com/jsonp/',
+			dataType: 'jsonp',
+			data: {
+				title: 'xxx'
+			},
+			timeout: 15000,
+		}).done(response)
+		.fail(function() {
+			$response.html(failed);
+		}).always(function() {
+			$response.removeClass('loading');
+		});*/
+
+		///////////////////////////////////////////////////////////////////
+		/*var searchTimeout,
+			searchDelay = 300;
+
+		$('title').bind('keyup', function(event) {
+			clearTimeout(searchTimeout);
+			searchTimeout = setTimeout(function() {
+				$.ajaxForm.triggerHandler('submit');
+			}, searchDelay);
+		});*/
+
+
+		///////////////////////////////////////////////////////////////////
+		// YAML
+
+		$.ajaxSetup({
+			accepts: {
+				yaml: 'application/x-yaml, text/yaml',
+			},
+			contents: {
+				yaml: /yaml/
+			},
+			converters: {
+				'text yaml': function(textValue) {
+					console.log(textValue);
+					return '';
+				}
+			}
+		});
+
+		$.ajax({
+			url: 'testYaml.yml',
+			dataType: 'yaml',
+		});
+
+
+
+
+		///////////////////////////////////////////////////////////////////
+
+		/*(function($) {
+
+			var $window = $(window);
+			function checkScrollPosition() {
+				var distance = $window.scrollTop() + $window.height();
+				if ($('#container').height() <= distance) {
+					$(document).trigger('nextPage');
+				}
+			};
+
+			$(document).ready(function() {
+				$window.scroll(checkScrollPosition).scroll();
+			});
+
+			///////////////////////////////////////////////////////////////////
+
+			$(document).bind('nextPage', function(event, scrollToVisible) {
+				var url = $('#more-photos').attr('href');
+				if (url) {
+					$.get(url, function(data) {
+						var $data = $(data).appendTo('#gallery');
+						if (scrollToVisible) {
+							var newTop = $data.offset().top;
+							$(window).scrollTop(newTop);
+						}
+						checkScrollPosition();
+					})
+				}
+			});
+
+			$(document).ready(function() {
+				$('#more-photos').click(function() {
+					$(this).trigger('nextPage', [true]);
+					return false;
+				});
+			});
+
+		})(jQuery);*/
+
+		///////////////////////////////////////////////////////////////////
+
+		// cd time = 500 ms.
+		// (function($) {
+
+			// $(document).ready(function() {
+			// 	var timer = 0;
+			// 	$window.scroll(function() {
+			// 		if (!timer) {
+			// 			timer = setTimeout(function() {
+			// 				checkScrollPosition();
+			// 				timer = 0;
+			// 			}, 500);
+			// 		}
+			// 	})
+			// });
+
+			///////////////////////////////////////////////////////////////////
+
+		// 	$.event.special.throttledScroll = {
+		// 		setup: function(data) {
+		// 			var timer = 0;
+		// 			$(this).bind('scroll.throttledScroll', function(event) {
+		// 				if(!timer) {
+		// 					timer = setTimeout(function() {
+		// 						$(this).triggerHandler('throttledScroll');
+		// 						timer = 0;
+		// 					}, 400);
+		// 				}
+		// 			});
+		// 		},
+
+		// 		teardown: function() {
+		// 			$(this).unbind('scroll.throttledScroll');
+		// 		}
+		// 	}
+
+		// 	$(document).ready(function() {
+		// 		$window.bind('throttledScroll', checkScrollPosition)
+		// 			.trigger('throttledScroll');
+		// 	})
+
+		// })(jQuery);
+
+
+	</script>
+
+</head>
+
+<body>
+
+	<div id="div-main">
+
+		<a href="http: //www.xxx.com">xxx</a>
+		<a href = "http://www.abc.com" > abc </a>
+		<a href="http://www.xxx.com/xxx/xx">xxx/xxx/xx</a>
+
+		<br />
+
+		<button id="switcher-add">LARGER</button>
+		<button id="switcher-sub">SMALLER</button>
+
+		<div><a id="more" href="#">more</a></div>
+
+		<p>医生登录医生工作站以后可以查看对应病区的伤员的处治报告、病情、检查<br />检验报告，并进行病程和医嘱的记录和管理。</p>
+
+		<p>The jQuery Text Resizer plugin attempts to solve one problem: that of resizing text on demand by the user. It is flexible in that it lets you specify how to resize text, where it should be resized, and how the resizing controls are to be structured. Visit the project site for detailed information.</p>
+
+		<p>Dynatree is a JavaScript dynamic tree view plugin for jQuery with support for persistence, keyboard, checkboxes, drag’n'drop, and lazy loading. Note: The GitHub repository is currently only a stub for the SVN repository on</p>
+
+		<div>
+			<button id="fx-toggle">toggle animation</button>
+		</div>
+
+		<div class="out overout">
+			<p>move your mouse</p>
+			<div class="in overout">
+				<p>move your mouse</p>
+				<p>0</p>
+			</div>
+			<p>0</p>
+		</div>
+ 
+		<div class="out enterleave">
+			<p>move your mouse</p>
+			<div class="in enterleave">
+				<p>move your mouse</p>
+				<p>0</p>
+			</div>
+			<p>0</p>
+		</div>
+
+		<div id="playground-1">
+		</div>
+		
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset = "utf-8" />
+
+	<style>
+
+body {
+	background-color: green;
+}
+
+div.letter {
+	position: absolute;
+	color: red;
+	background-color: transparent;
+	font-size: 60px;
+	width: 50;
+	height: 50;
+}
+
+	</style>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+	<script type="text/javascript">
+
+		$('document').ready(function() {
+
+			var WIN_WIDTH = $(window).width(),
+				WIN_HEIGHT = $(window).height(),
+				TIME = 2000;
+
+			var $point = $('<div id="point">0</div>')
+				.insertAfter('body')
+				.css({
+					'font-size': '30px',
+					'color': 'black',
+					'background-color': 'white',
+					'width': '100px',
+					'height': '32px',
+					'position': 'absolute',
+					'left': '10px',
+					'top': '10px'
+				});
+
+			var letters = [];
+
+			(function dropLetter() {
+
+				var c = String.fromCharCode(Math.floor(97 + Math.random() * 26));
+				while(letters.indexOf(c) != -1) {
+					c = String.fromCharCode(Math.floor(97 + Math.random() * 26));
+				}
+
+				letters.push(c);
+				console.log(letters);
+
+				$('<div class="letter" id="lt-' + c + '"><p>' + c + '</p></div>')
+					.insertAfter('body')
+					.css({
+						'color': 'rgb(' + Math.random() * 255 + ',' + Math.random() * 255 +
+							','  + Math.random() * 255 + ')',
+						'top': '-100px',
+						'left': 100 + (WIN_WIDTH - 300) * Math.random() + 'px',
+					}).animate({
+						top: WIN_HEIGHT,
+					}, TIME * Math.random() + 2000, function() {
+						var pt = $point.text() - 10;
+						$point.text(pt);
+						var i = letters.indexOf($(this).attr('id'));
+						letters.splice(i, 1);
+						$(this).remove();
+					});
+
+				setTimeout(dropLetter, TIME * Math.random());
+
+			})();
+
+			$(document).keypress(function(event) {
+				
+				var c = String.fromCharCode(event.which);
+				console.log(c);
+				var	i = letters.indexOf(c);
+				console.log(i);
+
+				console.log(event.which);
+
+				if(i != -1) {
+					console.log('i != -1');
+					letters.splice(i, 1);
+
+					var $letter = $('#lt-' + c);
+					if($letter.length != 0) {
+						$letter.stop().unbind().remove();
+					}
+
+					var pt = $point.text();
+					pt = parseInt(pt, 10) + 10;
+					$point.text(pt);
+
+					console.log(letters);
+				} else {
+					console.log(letters);
+					console.log('i == -1!!!');
+				}
+
+			});
+
+		});
+
+	</script>
+
+</head>
+
+<body>
+
+</body>
+</html>

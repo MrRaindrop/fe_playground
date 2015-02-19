@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset = "utf-8" />
+
+	<style>
+
+		nav li{
+			display: block;
+		}
+
+		div#a{
+			position: absolute;
+			width: 100px;
+			height: 100px;
+			background-color: #66aaff;
+		}
+
+		div#b{
+			position: absolute;
+			left: 100px;
+			width: 100px;
+			height: 100px;
+			background-color: #ffaa66;
+		}
+
+
+	</style>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+	<script type="text/javascript">
+
+		$('document').ready(function() {
+
+			$('#ani-1').click(function() {
+
+				$('#b').animate({
+					left: '900px',
+					top: '400px',
+					'background-color': '#66aaff',
+				}, {
+					duration: 3000,
+					easing: 'swing',
+					specialEasing: {
+						left: 'linear',
+					},
+					step: function(now, fx) {
+						var data = fx.elem.id + ' ' + fx.prop + ':' + now;
+						console.log(data);
+					},
+					complete: function() {
+						alert('finished!');
+					}
+				});
+
+				return false;
+
+			});	
+
+
+
+		});
+
+
+	</script>
+
+</head>
+
+<body>
+
+	<nav>
+		<ul>
+			<li><a id="ani-1" href="#">animate1</a></li>
+			<li><a id="ani-2" href="#">animate1</a></li>
+			<li><a id="ani-3" href="#">animate1</a></li>
+			<li><a id="ani-4" href="#">animate1</a></li>
+			<li><a id="ani-5" href="#">animate1</a></li>
+		</ul>
+	</nav>
+
+	<div id="a"></div>
+	<div id="b"></div>
+
+</body>
+</html>
