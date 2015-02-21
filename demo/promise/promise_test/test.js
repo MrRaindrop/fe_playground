@@ -3,49 +3,27 @@
  * 
  */
 
-var assert = require("assert");
-describe('Array', function(){
+var expect = require('chai').expect,
+  Promise = require('promise');
 
-  before(function() {
-    console.log('---- before all tests ----');
+var getPromisedTimer = function(time) {
+  var _t = time * 1000;
+  return new Promise(function(resolve, reject) {
+    setTimeout(function() {
+      resolve('timer ' + time + 's');
+    }, _t);
   });
+};
 
-  beforeEach(function() {
-    console.log('---- before every function ----');
-  });
+describe('test suite 0', function(){
 
-  afterEach(function() {
-    console.log('---- after every function ----');
-  });
-  
-  describe('#indexOf()', function(){
-
-    beforeEach(function() {
-      console.log('---- before every #indexOf() function ----');
+  it('should resolve a promise in 3 seconds.', function(done) {
+    getPromisedTimer(3).then(function(val) {
+      expect(val).to.equal('timer 3s');
+      done();
+    }).catch(function(err) {
+      console.error(err);
     });
-
-    afterEach(function() {
-      console.log('---- after every #indexOf() function ----');
-    });
-
-    it('should return -1 when the value is not present.', function(){
-      assert.equal(-1, [1,2,3].indexOf(5));
-      assert.equal(-1, [1,2,3].indexOf(0));
-    });
-  });
-
-  it('should compare 0 and false', function() {
-    assert.equal(0, false);
-  });
-  
-  describe('1equalTrue()', function(){
-    it('1 should be equal to true.', function(){
-      assert.equal(1, true);
-    });
-  });
-
-  after(function() {
-    console.log('---- after all tests ----');
   });
 
 });
