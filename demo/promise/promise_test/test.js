@@ -4,6 +4,7 @@
  */
 
 var expect = require('chai').expect,
+  assert = require('assert'),
   Promise = require('promise');
 
 var getPromisedTimer = function(time) {
@@ -17,10 +18,20 @@ var getPromisedTimer = function(time) {
 
 describe('test suite 0', function(){
 
-  it('should resolve a promise in 3 seconds.', function(done) {
-    getPromisedTimer(3).then(function(val) {
-      expect(val).to.equal('timer 3s');
+  // using done() for async promise.
+  it('should resolve a promise in 1.5 seconds.', function(done) {
+    return getPromisedTimer(1.5).then(function(val) {
+      expect(val).to.equal('timer 1.5s');
       done();
+    }).catch(function(err) {
+      console.error(err);
+    });
+  });
+
+  // not using done() for async promise.
+  it('should resolve a promise in 1.5 seconds.', function() {
+    return getPromisedTimer(1.5).then(function(val) {
+      expect(val).to.equal('timer 1.5s');
     }).catch(function(err) {
       console.error(err);
     });
