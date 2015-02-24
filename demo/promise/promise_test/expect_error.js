@@ -22,7 +22,7 @@ var mayBeRejectedA = function() {
   };
 
 var failTest = function() {
-  throw new Error('mayBeRejected has not reject any error.');
+  throw new Error('mayBeRejected has not reject any error. the test is failed.');
 };
 
 describe('test suite 0', function() {
@@ -81,6 +81,34 @@ describe('test suite 0', function() {
     return mayBeRejectedB().then(failTest, function(error) {
       expect(error.message).to.equal('a expected error.');
     });
+  });
+
+  ///////////////////////// use helper func ////////////////
+
+  var shouldReject = function(promise) {
+  	return {
+  		'catch': function(fn) {
+  			return promise.then(function() {
+  				throw new Error('Expected promise to be rejected but it was fufilled.');
+  			}, function(reason) {
+  				fn.call(fn, reason);
+  			});
+  		}
+  	}
+  };
+
+  it('should be rejected. should pass test.', function() {
+  	var promise = Promise.reject(new Error('human error.'));
+  	return shouldReject(promise).catch(function(err) {
+  		expect(err.message).to.equal('human error.');
+  	});
+  });
+
+  it('should not be the expected error. should not pass test.', function() {
+  	var promise = Promise.reject(new Error('a error not expected.'));
+  	return shouldReject(promise).catch(function(err) {
+  		expect(err.message).to.equal('human error.');
+  	});
   });
 
 });
