@@ -27,7 +27,7 @@ var failTest = function() {
 
 describe('test suite 0', function() {
 
-	it('a error happened in onfufilled handler.', function() {
+  it('a error happened in onfufilled handler.', function() {
     return getPromisedAssertError().then(function(val) {
       throw new Error('a error in onfufilled handler.');
     });
@@ -86,29 +86,29 @@ describe('test suite 0', function() {
   ///////////////////////// use helper func ////////////////
 
   var shouldReject = function(promise) {
-  	return {
-  		'catch': function(fn) {
-  			return promise.then(function() {
-  				throw new Error('Expected promise to be rejected but it was fufilled.');
-  			}, function(reason) {
-  				fn.call(fn, reason);
-  			});
-  		}
-  	}
+    return {
+      'catch': function(fn) {
+        return promise.then(function() {
+  		  throw new Error('Expected promise to be rejected but it was fufilled.');
+  	    }, function(reason) {
+  	      fn.call(fn, reason);
+  	    });
+  	  };
+  	};
   };
 
   it('should be rejected. should pass test.', function() {
-  	var promise = Promise.reject(new Error('human error.'));
-  	return shouldReject(promise).catch(function(err) {
-  		expect(err.message).to.equal('human error.');
-  	});
+    var promise = Promise.reject(new Error('human error.'));
+    return shouldReject(promise).catch(function(err) {
+      expect(err.message).to.equal('human error.');
+    });
   });
 
   it('should not be the expected error. should not pass test.', function() {
-  	var promise = Promise.reject(new Error('a error not expected.'));
-  	return shouldReject(promise).catch(function(err) {
-  		expect(err.message).to.equal('human error.');
-  	});
+    var promise = Promise.reject(new Error('a error not expected.'));
+    return shouldReject(promise).catch(function(err) {
+      expect(err.message).to.equal('human error.');
+    });
   });
 
 });
