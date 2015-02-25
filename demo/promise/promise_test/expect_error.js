@@ -89,12 +89,12 @@ describe('test suite 0', function() {
     return {
       'catch': function(fn) {
         return promise.then(function() {
-  		  throw new Error('Expected promise to be rejected but it was fufilled.');
-  	    }, function(reason) {
-  	      fn.call(fn, reason);
-  	    });
-  	  };
-  	};
+          throw new Error('Expected promise to be rejected but it was fufilled.');
+        }, function(reason) {
+          fn.call(fn, reason);
+        });
+      };
+    };
   };
 
   it('should be rejected. should pass test.', function() {
