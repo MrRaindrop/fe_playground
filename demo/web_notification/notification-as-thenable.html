@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>notification-as-thenable</title>
+</head>
+<body>
+
+  <button id="btn">notification-as-thenable</button>
+
+  <script type="text/javascript">
+
+    var notifyMessage = function(msg, opts, cb) {
+        var _nt;
+        if (Notification && Notification.permission === 'granted') {
+    	    _nt = new Notification(msg, opts);
+          cb(null, _nt);
+    	  } else if (Notification && Notification.requestPermission) {
+    	    Notification.requestPermission(function(status) {
+            if (Notification.permission !== status) {
+              Notification.permission = status;
+            }
+            if (status === 'granted') {
+              _nt = new Notification(msg, opts);
+              cb(null, _nt);
+            } else {
+              cb(new Error('user denied.'));
+            }
+    		  });
+    	  } else {
+          cb(new Error('doesn\'t support Notification API.'));
+    	  }
+      },
+
+      // 把notifyMessage包装在一个thanble对象中
+      notifyMessageAsThenable = function(msg, opts) {
+        return {
+          'then': function(resolve, reject) {
+            notifyMessage(msg, opts, function(err, nt) {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(nt);
+              }
+            });
+          }
+        };
+      };
+
+    // test
+    var btn = document.getElementById('btn');
+    btn.addEventListener('click', function() {
+      // 将一个thenable对象转换为一个Promise对象
+      Promise.resolve(notifyMessageAsThenable('Hi!')).then(function(nt) {
+        console.log('notification:', nt);
+      }).catch(function(err) {
+        console.error(err);
+      });
+    }, false);
+
+  </script>
+
+</body>
+</html>

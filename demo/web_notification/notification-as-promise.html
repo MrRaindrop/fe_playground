@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>notification-as-promise</title>
+</head>
+<body>
+
+  <button id="btn">notification-as-promise</button>
+
+  <script type="text/javascript">
+
+    var notifyMessage = function(msg, opts, cb) {
+        var _nt;
+        if (Notification && Notification.permission === 'granted') {
+    	    _nt = new Notification(msg, opts);
+          cb(null, _nt);
+    	  } else if (Notification && Notification.requestPermission) {
+    	    Notification.requestPermission(function(status) {
+            if (Notification.permission !== status) {
+              Notification.permission = status;
+            }
+            if (status === 'granted') {
+              _nt = new Notification(msg, opts);
+              cb(null, _nt);
+            } else {
+              cb(new Error('user denied.'));
+            }
+    		  });
+    	  } else {
+          cb(new Error('doesn\'t support Notification API.'));
+    	  }
+      },
+
+      // 把notifyMessage函数包装在一个promise里 
+      notifyMessageAsPromise = function(msg, opts) {
+        return new Promise(function(resolve, reject) {
+          notifyMessage(msg, opts, function(err, nt) {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(nt);
+            }
+          });
+        });
+      };
+
+    // test
+    var btn = document.getElementById('btn');
+    btn.addEventListener('click', function() {
+      notifyMessageAsPromise('Hi!').then(function(nt) {
+        console.log('notification:', nt);
+      }).catch(function(err) {
+        console.error(err);
+      });
+    }, false);
+
+  </script>
+
+</body>
+</html>

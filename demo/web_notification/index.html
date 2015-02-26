@@ -2,10 +2,20 @@
 <html>
 <head>
   <title>web-notification</title>
+  <style type="text/css">
+    button, a {
+    	margin: 10px;
+    }
+    a {
+    	display: block;
+    }
+  </style>
 </head>
 <body>
 
   <button id="btn">web notification</button>
+  <a href="notification-as-promise.html">notification-as-promise</a>
+  <a href="notification-as-thenable.html">notification-as-thenable</a>
 
   <script type="text/javascript">
 
@@ -18,7 +28,7 @@
       	// status === 'granted' or 'denied'
         console.log('notification permission status:', status);
         if (status === 'granted') {
-        	// 通过new Notification()创建通知窗
+        	// 通过new Notification()创建桌面通知
           new Notification('Hi!This is a web notification!');
         }
       });
