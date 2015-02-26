@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>web-notification</title>
+</head>
+<body>
+
+  <button id="btn">web notification</button>
+
+  <script type="text/javascript">
+
+    var btn = document.getElementById('btn');
+
+    btn.addEventListener('click', function(e) {
+      
+      // 通过requestPermission获取用户授权
+      Notification.requestPermission(function(status) {
+      	// status === 'granted' or 'denied'
+        console.log('notification permission status:', status);
+        if (status === 'granted') {
+        	// 通过new Notification()创建通知窗
+          new Notification('Hi!This is a web notification!');
+        }
+      });
+
+    }, false);
+
+  </script>
+
+</body>
+</html>
