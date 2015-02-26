@@ -2,7 +2,7 @@
 
 	var btnDeferred = document.getElementById('btn-deferred');
 
-	// Deferred类的实现
+	// 简单Deferred类的实现
 
 	function Deferred() {
 		this.promise = new Promise(function(resolve, reject) {
