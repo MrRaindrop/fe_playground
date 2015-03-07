@@ -16,7 +16,7 @@
 		var startDate,
 			results = [],
 			promises = [
-				getPromisedTimer.bind(null, 1),
+			  getPromisedTimer.bind(null, 1),
 				getPromisedTimer.bind(null, 2),
 				getPromisedTimer.bind(null, 4),
 				getPromisedTimer.bind(null, 8)
@@ -36,15 +36,29 @@
 
 		startDate = Date.now();
 
+    /**
+     * 直接使用then来链接所有promise使之序列执行
+     */
 		// getPromisedTimer(1).then(handleResult)
 		// 	.then(getPromisedTimer.bind(null, 2)).then(handleResult)
 		// 	.then(getPromisedTimer.bind(null, 4)).then(handleResult)
 		// 	.then(getPromisedTimer.bind(null, 8)).then(handleResult);
 
-		var promise = promises[0]().then(handleResult);
-		for (var i = 1, l = promises.length; i < l; i++) {
-			promise = promise.then(promises[i]).then(handleResult);
-		}
+    /**
+     * 使用for循环来处理promise的序列执行
+     */
+		// var promise = promises[0]().then(handleResult);
+		// for (var i = 1, l = promises.length; i < l; i++) {
+		// 	promise = promise.then(promises[i]).then(handleResult);
+		// }
+    
+    /**
+     * 使用reduce处理promise的序列执行（比for循环更聪明的用法）
+     */
+    
+    promises.reduce(function(prevPromise, currPromise) {
+      return prevPromise.then(currPromise).then(handleResult);
+    }, promises[0]().then(handleResult));
 
 	}, false);
 
