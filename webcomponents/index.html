@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>webcomponents</title>
+
+	<style>
+	div {
+		width: 200px;
+		height: 20px;
+		background-color: #f7f7f7;
+	}
+	</style>
+
+	<style>
+		/*.someclass {
+			padding: 10px;
+			background-color: #0fc;
+		}*/
+		.someclass {
+			--some-color: #fe0;
+		}
+	</style>
+
+	<!-- // <script src="node_modules/webcomponents.js/webcomponents.js"></script>
+	// <script src="node_modules/document-register-element/build/document-register-element.js"></script> -->
+
+</head>
+<body>
+
+<link id="link1" rel="import" href="./testImport.html" />
+<link id="link2" rel="import" href="./testImportTemplate.html" />
+
+<a href="">
+
+<!-- <button>xxx</button> -->
+
+<!-- <element extends="button" name="x-button">
+
+</element> -->
+
+<!-- <button is="x-button">
+aaa
+</button> -->
+
+<!-- <template id="mytmp">
+	<div class="slide">
+    <content></content>
+    <div class="slogan">
+      <content select="slogan"></content>
+    </div>
+	</div>
+</template> -->
+
+<!-- <template id="template">
+  <header>
+   <h1>Site Name</h1>
+	</header>
+	<nav>
+    <div class="wrapper">
+      <h2>Section 1</h2>
+      <h2>Section 2</h2>
+      <h2>Section 3</h2>
+    </div>
+	</nav>
+</template> -->
+
+<!-- <button id="useme">Use me</button>
+<div id="container"></div>
+<template id="temp">
+  <div>Template used: <span>0</span></div>
+</template> -->
+
+<!-- <div id="outterDiv">
+
+</div>
+
+<div id="testDiv">
+	
+</div> -->
+
+
+<!-- <x-button></x-button> -->
+<!-- <my-input></my-input> -->
+
+<div class="ctClass">
+	<x-daterange class="someclass"></x-daterange>
+</div>
+
+<template id="x-daterange-template">
+	<style>
+		:host(.someclass) {
+			width: 300px;
+			height: 200px;
+			padding: 10px;
+			border: 1px solid red;
+			/*background-color: #fe0;*/
+			/*background-color: var(--some-color);*/
+		}
+		div {
+			border: 1px solid red;
+			/*border-color: var(--some-color);*/
+		}
+	</style>
+	<div>
+		<span>start : </span>
+		<input type="date" name="startDate" id="start" />
+	</div>
+	<div>
+		<span>end : </span>
+		<input type="date" name="endDate" id="end" />
+	</div>
+</template>
+
+<x-btn><i>button</i></x-btn>
+
+<template id="x-btn-template">
+	<style>
+		div {
+			width: 100px;
+			text-align: center;
+			padding: 3px;
+			background-color: #eee;
+			border: 1px solid #ccc;
+		}
+	</style>
+	<div class="ct">
+		a <content></content>
+	</div>
+</template>
+
+
+<!-- nameTag -->
+
+<div id="nameTag">test</div>
+<template id="nameTagTemplate">
+	<style>
+	.outer {
+	  border: 2px solid brown;
+	  border-radius: 1em;
+	  background: red;
+	  font-size: 20pt;
+	  width: 12em;
+	  height: 7em;
+	  text-align: center;
+	}
+	.boilerplate {
+	  color: white;
+	  font-family: sans-serif;
+	  padding: 0.5em;
+	}
+	.name {
+	  color: black;
+	  background: white;
+	  font-family: "Marker Felt", cursive;
+	  font-size: 45pt;
+	  padding-top: 0.2em;
+	}
+	</style>
+
+	<div class="outer">
+	  <div class="boilerplate">
+	    Hi! My name is
+	  </div>
+	  <div class="name">
+	    <content></content>
+	  </div>
+	</div>
+
+</template>
+
+<div id="example3">
+	<span>LIGHT DOM</span>
+</div>
+
+<!-- nameTag end -->
+
+<!--<div id="example2">Light DOM</div>
+<script>
+	var container = document.querySelector('#example2');
+	var root1 = container.createShadowRoot();
+	var root2 = container.createShadowRoot();
+	root1.innerHTML = '<div>Root 1 FTW</div><content></content>';
+	root2.innerHTML = '<div>Root 2 FTW</div><shadow></shadow>';
+</script>-->
+
+<div id="_div"></div>
+
+<script type="text/javascript">
+
+(function() {
+
+	var shadow = document.querySelector('#nameTag').createShadowRoot();
+	var template = document.querySelector('#nameTagTemplate');
+	var clone = template.content.cloneNode(true);
+	// var clone = document.importNode(template.content, true);
+	shadow.appendChild(clone);
+
+	document.registerElement('x-btn', {
+		prototype: Object.create(HTMLElement.prototype, {
+			createdCallback: {
+				value: function() {
+					console.log('x-btn created');
+					this.createShadowRoot().appendChild(document.querySelector('#x-btn-template').content.cloneNode(true));
+				}
+			},
+			attachedCallback: {
+				value: function() {
+					console.log('x-btn attached');
+					console.log(this);
+				}
+			},
+			attributeChangedCallback: {
+				value: function() {
+					console.log('x-btn attributeChanged', arguments);
+				}
+			},
+			detachedCallback: {
+				value: function() {
+					console.log('x-btn detached');
+				}
+			}
+		})
+	});
+
+	document.registerElement('x-daterange', {
+		prototype: Object.create(HTMLElement.prototype, {
+			createdCallback: {
+				value: function() {
+					console.log('x-daterange created.');
+					this.createShadowRoot().appendChild(document.querySelector('#x-daterange-template').content.cloneNode(true));
+				}
+			}
+		})
+	});
+
+	// var xBtn = document.querySelector('x-btn');
+	// xBtn.appendChild(document.querySelector('#x-btn-template').content.cloneNode(true));
+
+	// var t = document.querySelector("#mytmp");
+	// var slide = t.content.cloneNode(true);
+	// console.log(slide);
+	// // document.body.appendChild(slide);
+	
+	// var b = document.createElement('button', 'x-button');
+	// console.log(b.outerHTML);
+
+  // document.querySelector('#useme').addEventListener('click', function () {
+  //   var content = document.querySelector('#temp').content;
+  //   var div = content.querySelector('div');
+  //   console.log('textContent:', div.textContent);
+  //   // 更新 template DOM 中的内容。
+  //   var span = content.querySelector('span');
+  //   span.textContent = parseInt(span.textContent) + 1;
+  //   document.querySelector('#container').innerHTML = 'Template used: <span>' + span.textContent + '</span>';
+  // }, false);
+  
+	// var htmlTemplateString = '<style>div { color: red; } @host: { div { border: 1px solid red; } }</style><div>Click me!</div>';
+  
+  // var _div = document.querySelector('#testDiv');
+  // var root = _div.createShadowRoot();
+  // var templateNode = document.querySelector('#template');
+  // var clone = templateNode.content.cloneNode(true);
+  // root.appendChild(clone);
+
+  // var xBtnProto = Object.create(HTMLElement.prototype);
+  // document.registerElement('x-button', HTMLElement.prototype, {
+  // 		createCallback: {
+  // 			value: function() {
+  // 				console.log('x-button created!', arguments);
+  // 				console.log('this:', this);
+  // 				console.log('x-button content:', this.textContent);
+  // 			},
+  // 		},
+  // 		attachedCallback: {value: function() {
+  //       console.log('x-button attached!', arguments);
+  //     }},
+  //     detachedCallback: {value: function() {
+  //       console.log('x-button detached!', arguments);
+  //     }},
+  // });
+  
+ //  document.registerElement(
+	//   'my-input',
+	//   {
+	//     extends: 'input', // <== IMPORTANT
+	//     prototype: Object.create(
+	//       HTMLInputElement.prototype
+	//     )
+	//   }
+	// );
+
+	// // how to create the input
+	// var mi = document.createElement(
+	//   'input',    // the extend
+	//   'my-input'  // the enriched custom definition
+	// );
+
+	// console.log(mi);
+	
+
+	// var myBtnProto = Object.create(HTMLElement.prototype, {
+	// 	createdCallback: {
+	// 		value: function () {
+	// 	  	console.log('my-input created!', this);
+	// 	    // here the input
+	// 	    this.el = this.appendChild(
+	// 	      document.createElement('input')
+	// 	    );
+	// 	  }
+	// 	},
+	// 	attachedCallback: {
+	// 		value: function() {
+	// 			console.log('attached callback');
+	// 		}
+	// 	},
+	// 	detachedCallback: {
+	// 		value: function() {
+	// 			console.log('detached callback');
+	// 		}
+	// 	}
+	// });
+
+	// var _div = document.createElement('div');
+	// document.body.appendChild(_div);
+	var _div = document.querySelector('#_div');
+	var _root1 = _div.createShadowRoot();
+	var	_root2 = _div.createShadowRoot();
+	_root1.innerHTML = '<div>ROOT1</div>';
+	_root2.innerHTML = '<shadow></shadow><div>ROOT2</div>';
+	// _div.appendChild(_root1);
+	console.log(_div);
+	console.log('_root1 === _root2.olderShadowRoot: ', _root1 === _root2.olderShadowRoot);
+	console.log('_div.shadowRoot === _root2: ', _div.shadowRoot === _root2);
+
+	var container = document.querySelector('#example3');
+	var root1 = container.createShadowRoot();
+	var root2 = container.createShadowRoot();
+
+	var div = document.createElement('div');
+	div.textContent = 'Root 1 FTW';
+	root1.appendChild(div);
+
+	var content = document.createElement('content');
+	content.select = 'span';
+	root1.appendChild(content);
+
+	var div = document.createElement('div');
+	div.textContent = 'Root 2 FTW';
+	root2.appendChild(div);
+
+	var shadow = document.createElement('shadow');
+	root2.appendChild(shadow);
+
+
+	/////////////////////////////
+	//////////// test import ////
+	/////////////////////////////
+	
+	var importContent = document.querySelector('#link1').import;
+	console.log('importContent:', importContent);
+
+	var currentScript = document.currentScript;
+	var ownerDoc = currentScript.ownerDocument;
+	console.log('currentScript', document.currentScript);
+	console.log('ownerDoc', ownerDoc);
+
+	var templateScript = document.querySelector('#link2').import.querySelector('template').content.querySelector('script');
+	console.log('templateScript:', templateScript);
+	document.body.appendChild(document.querySelector('#link2').import.querySelector('template').content, true);
+	// document.body.appendChild(document.querySelector('#link2').import.querySelector('template').content.cloneNode(true));
+
+	}());
+
+</script>
+	
+</body>
+</html>

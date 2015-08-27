@@ -1,0 +1,34 @@
+<template id="x-btn-template">
+	<style>
+	:host {
+		display: inline-block;
+		text-decoration: none;
+		padding: 10px;
+		border: 1px solid #999;
+		border-radius: 5px;
+		background-color: rgb(178, 232, 178);
+		cursor: pointer;
+	};
+	</style>
+	#<content></content>#
+</template>
+
+<script>
+var doc = document.currentScript.ownerDocument;
+console.log('x-btn-template\'s ownerDocument:', doc);
+document.registerElement('x-btn', {
+	prototype: Object.create(HTMLElement.prototype, {
+		attachedCallback: {
+			value: function() {
+				console.log('x-btn attahced. this-->', this);
+				console.log('x-btn instance\'s ownerDocument(this.ownerDocument):',
+					this.ownerDocument);
+				//// 注意：这里要用宿主document去查找x-btn-template
+				//// 而不是当前document去query，否则报错
+				var templateContent = doc.querySelector('#x-btn-template').content;
+				this.createShadowRoot().appendChild(templateContent.cloneNode(true));
+			}
+		}
+	})
+});
+</script>

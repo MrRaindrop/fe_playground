@@ -1,0 +1,20 @@
+{
+  "name": "myPolymerTest",
+  "version": "1.0.0",
+  "homepage": "https://github.com/MrRaindrop/fe_playground",
+  "authors": [
+    "hesai.hs <hesai.hs@alibaba-inc.com>"
+  ],
+  "description": "demo_polymer",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0"
+  }
+}

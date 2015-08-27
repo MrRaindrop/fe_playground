@@ -1,0 +1,23 @@
+<template id="link2_template">
+	<style>
+	#importTemplateDiv {
+		display: inline-block;
+		text-decoration: none;
+		padding: 10px;
+		border: 1px solid #999;
+		border-radius: 5px;
+		background-color: rgb(178, 232, 178);
+	}
+	</style>
+	<div id="importTemplateDiv">importedTemplateDiv</div>
+</template>
+<script type="text/javascript">
+(function() {
+	var od = document.currentScript.ownerDocument;
+	console.log('///////////////////// link 2 ///////////////////////');
+	console.log('document of script in tempalte.html:', document);
+	console.log('ownerDocument of script in template.html:', od);
+	console.log('////////////// ----> script inside imported template running in ownerDocument.');
+	console.log(od.querySelector('#link2_template'));
+})();
+</script>

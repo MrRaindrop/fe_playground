@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>import</title>
+</head>
+<body>
+	See more info in console...
+	<link id="link1" rel="import" href="importee/imported.html" />
+	<link id="link2" rel="import" href="importee/template.html" />
+</body>
+
+<script type="text/javascript">
+	
+	/////////////////////////////
+	//////////// test import ////
+	/////////////////////////////
+	
+	console.log('///////////////////// index.html ///////////////////////');
+	
+	var importContent = document.querySelector('#link1').import;
+	console.log('link1.import:', importContent);
+
+	var importContent2 = document.querySelector('#link2').import;
+	console.log('link2.import:', importContent2);
+
+	var templateContent = document.querySelector('#link2').import.querySelector('template').content;
+	console.log('link2.template.content:', templateContent);
+	console.log('append link2.template.content to local body --->');
+	document.body.appendChild(templateContent.cloneNode(true));
+	
+	// document.body.appendChild(document.querySelector('#link2').import.querySelector('template').content.cloneNode(true));
+
+</script>
+
+</html>

@@ -6,7 +6,8 @@
 			var _t = time * 1000;
 			return new Promise(function(resolve, reject) {
 				setTimeout(function() {
-					resolve('timer ' + time + 's');
+					// resolve('timer ' + time + 's');
+					reject('error! timer ' + time + 's');
 				}, _t);
 			});
 		};
@@ -19,6 +20,9 @@
 			.then(function(vals) {
 				console.log(Date.now() - startDate + 'ms');
 				console.log(vals);
+			}, function(err) {
+				console.log(Date.now() - startDate + 'ms');
+				console.log(err);
 			});
 
 	}, false);
